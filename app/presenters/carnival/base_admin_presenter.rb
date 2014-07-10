@@ -144,7 +144,7 @@ module Carnival
     end
 
     def build_relation_field(field)
-      if is_relation_belongs_to?(field.name)
+      if is_relation_belongs_to?(field.name.to_sym)
         model_object.send("#{field.name}_build")
       else
         model_object.send(field.name).build
