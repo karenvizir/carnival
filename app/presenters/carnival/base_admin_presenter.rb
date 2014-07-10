@@ -143,6 +143,14 @@ module Carnival
       searchable_fields
     end
 
+    def build_relation_field(field)
+      if is_relation_belongs_to?(field.name)
+        model_object.send("#{field.name}_build")
+      else
+        model_object.send(field.name).build
+      end
+    end
+
     def must_render_field?(nested_in, field, model_object)
       must_render = true
       if nested_in.present?
@@ -353,6 +361,9 @@ module Carnival
       end
     end
 
+    def is_namespaced?
+      self.class.to_s.split("::").size > 0
+    end
 
     def extract_namespace
       namespace = ""
